@@ -68,7 +68,7 @@ jTranslate supports special rewrite blocks for instances where you are not perfo
 - Rewrite/translation rules are currently compiled to SINGLE regular expressions, so any grouping in a reference rule will affect the grouping of any rules that use the reference (this will change in the future)
 
 ## Translator Classes
-As mentioned before, each translator rule must be mapped to a translator class which implements the "jTranslate.Translator" interface. Translator's must implement a single method, translate(MatchResult match). The entire match of each transltion rule is replaced with the output of the translate method of the mapped translator class.
+As mentioned before, each translator rule must be mapped to a translator class which implements the "jTranslate.Translator" interface. Translators must implement a single method, translate(MatchResult match). The entire match of each transltion rule is replaced with the output of the translate method of the mapped translator class.
 
 	import jtranslate.Translator;
 
