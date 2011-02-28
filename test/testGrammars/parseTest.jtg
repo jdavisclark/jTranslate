@@ -1,0 +1,38 @@
+/*
+    This is a test grammar file for parser development
+*/
+
+@rewrite {
+    "#NUMBER" -> "242342";
+}
+
+operator  {
+	==|<=|>=|!=|<|>
+}
+
+access_id {
+	public|private|protected
+}
+
+name {
+	[\w_]+
+}
+
+generic {
+	<<name>>
+}
+
+testRule {
+    // The spaces in here will be lost...which is ok I guess
+    (this is the \{test\}){2,5}
+}
+
+
+result_identifier {
+	select|where
+}
+
+lambda_filter -> LambdaTranslator {
+	(<name>)(<generic>)\s*(<name>)\s*=\s*
+    from\s+(<name>)\s+(<result_identifier>)\s+(\w)+\s*=>\s*(.*);
+}

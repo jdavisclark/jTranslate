@@ -1,0 +1,92 @@
+/*
+  jTranslate grammar file for a small set of language features known as exJava which are translated
+  to standard java source code
+*/
+
+
+/*
+  Consider changing the replace rule to take strings, int, booleans, etc... not just strings.
+*/
+@rewrite {
+    "#NAME" -> "John Smith";
+    "#NUMBER" -> "6543169";
+}
+
+@rewrite {
+   "MULTIPLE_REWRITE_BLOCK_TEST" -> "Multiple rewrite blocks working...";
+
+   // Think about multiple rewrite rules with the same search string...
+   "#NAME" -> "Some other name....";
+}
+
+
+access_id {
+	public|private|protected
+}
+
+name {
+	[\w_]+
+}
+
+generic {
+	<<name>>
+}
+
+string {
+    "([A-Za-z0-9\t\w\W]|\\")*"
+}
+
+
+result_identifier {
+	select|where
+}
+
+lambda_filter -> LambdaTranslator {
+	(<name>)(<generic>)\s*(<name>)\s*=\s*
+    from\s+(<name>)\s+(<result_identifier>)\s+(\w)+\s*=>\s*(.*);
+}
+
+
+
+string_literal -> StringLiteralTranslator {
+	#<string>
+}
+
+prototype_string -> PrototypeStringTranslator {
+	~<string>
+}
+
+implicit_assignment -> ImplicitTypeTranslator {
+	var\s*(<name>)\s*=\s*new\s*(<name><generic>|<name>)(\([^;]*\));
+}
+
+
+
+
+default_get {
+	get;
+}
+
+custom_get {
+	get\s*\{\s*.*return\s+.*\;\s*\}
+}
+
+default_set {
+	set;
+}
+
+/*
+    Think about removing the back-reference and leave it up to the programmer to use the correct variable.
+    Translation will fail either way.
+*/
+custom_set {
+	set\s*\{\s*.*\s*\3\s*=\s*.*\;\s*\}
+}
+
+auto_property -> AutoPropertyTranslator {
+	(<access_id>)?\s*(<name>)\s*(<name>)\s*
+    \{\s*
+        (<default_get>|<custom_get>)\s*
+        (<default_set>|<custom_set>)\s*
+    \}
+}

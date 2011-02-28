@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true">
+	<output-test url="file://$MODULE_DIR$/out/test/jExtend"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="commons-cli-1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-cli-1.2.jar!/"/>
+	</lib>
+	<lib name="commons-io-2.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/commons-io-2.0.1.jar!/"/>
+	</lib>
+	<lib name="jtopas.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jtopas.jar!/"/>
+	</lib>
+</component>
