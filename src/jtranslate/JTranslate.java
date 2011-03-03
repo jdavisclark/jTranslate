@@ -30,11 +30,13 @@ public class JTranslate
         source.setRequired(true);
         opts.addOption(source);
 
-        Option output = new Option("o", "output", true, "Output directory. If no directory is specified, a 'translated' directory will be created to hold the translated files in the source file/files directory");
+        Option output = new Option("o", "output", true, "Output directory");
         output.setValueSeparator('=');
+        output.setRequired(true);
         opts.addOption(output);
 
-        Option translator = new Option("t", "translators", true, "Translator class/directory");
+
+        Option translator = new Option("t", "translators", true, "Path to class file, jar file, or directory of both. If this is a directory, the path must have a trailing file separator. May specify a list of paths delimited by ';'");
         translator.setValueSeparator('=');
         translator.setRequired(true);
         opts.addOption(translator);
