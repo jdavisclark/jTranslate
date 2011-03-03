@@ -2,4 +2,3 @@ out/*
 bin/
 .idea/*
 *.iml
-README.md
