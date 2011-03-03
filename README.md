@@ -64,8 +64,8 @@ jTranslate supports special rewrite blocks for instances where you are not perfo
 - Java style block and line comments are supported
 - Multiple grammar files are supported if the -g/--grammar argument is a directory
 - Multiple rewrite blocks per grammar file are supported for organization purposes
-- All whitespace in rewrite/translation rule definitions is ignored
-- Rewrite/translation rules are currently compiled to SINGLE regular expressions, so any grouping in a reference rule will affect the grouping of any rules that use the reference (this will change in the future)
+- All whitespace in reference/translation rule definitions is ignored
+- Reference/translation rules are currently compiled to SINGLE regular expressions, so any grouping in a reference rule will affect the grouping of any rules that use the reference (this will change in the future)
 
 ## Translator Classes
 As mentioned before, each translator rule must be mapped to a translator class which implements the "jTranslate.Translator" interface. Translators must implement a single method, translate(MatchResult match). The entire match of each transltion rule is replaced with the output of the translate method of the mapped translator class.
