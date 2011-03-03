@@ -15,51 +15,51 @@ Grammar files are where you are going to define regular expression based rules. 
 	integer {
 		[0-9]+
 	}
-	
+
 	decimal {
 		<integer>\.<integer>
 	}
-	
+
 ### Translation Rules
 Translation rules are what jTranslate actually searches for in your input files. They are defined almost exactly like reference rules, but you must map each translation rule to the class name that will perform the translation. This class must be loadable via the -t/--translators argument.
 
 	number -> NumberTranslator {
 		<integer> | <decimal>
 	}
-	
+
 ### Rewrite Blocks
 jTranslate supports special rewrite blocks for instances where you are not performing advanced text manipulation, and just want to perform a simple search and replace on you input files.
-	
+
 	@rewrite {
 		"#FOO" -> "bar";
 		"foo" -> "bar";
 	}
-	
+
 #### All together:
 
-	/* 
+	/*
 		Example grammar file
 	*/
 	@rewrite {
 		"#FOO" -> "bar";
 		"foo" -> "bar";
 	}
-	 
+
 	integer {
 		[0-9]+
 	}
-	
+
 	decimal {
 		<integer>\.<integer>
 	}
-	
+
 	number -> NumberTranslator {
 		<integer> | <decimal>
 	}
 
 
-	
-	
+
+
 #### Notes on Grammar Files
 - Java style block and line comments are supported
 - Multiple grammar files are supported if the -g/--grammar argument is a directory
@@ -73,26 +73,26 @@ As mentioned before, each translator rule must be mapped to a translator class w
 	import jtranslate.Translator;
 
 	import java.util.regex.MatchResult;
-	
+
 	public class NumberTranslator implements Translator
 	{
 		@Override
 		public String translate(MatchResult mat){
-			String fullMatch = mat.group(0); 
+			String fullMatch = mat.group(0);
 			boolean isDecimal = fullMatch.indexOf(".") != -1;
-			
+
 			// for some reason we want to convert decimals to ints..
 			String output = isDecimal ? fullMatch.substring(0, fullMatch.indexOf(".")) : fullMatch;
-			
+
 			return output;
 		}
 	}
-	
+
 ## Source and Output Arguments
 jTranslate will recurse through each file in source directory/subdirectories, translate the file, and save the new file to the output directory. Directory structure is preserved from the source directory to the output directory. These arguments are not required to be directories, but it is strongly suggested.
 
 ## Translators Argument
-The -t/--translators argument is extremely flexible, and is used behind the scenes to create a URLClassLoader. So any argument valid for a URLClassLoader is valid here.
+The -t/--translators argument is extremely flexible, and is used behind the scenes to create a URLClassLoader. However, "file:" is appended to the beginning of each path so, remote URLs are current not supported (this will change) Currently If you need multiple paths, the -t argument can be a semicolon delimited list of paths.
 
 ## License
 Copyright (c) 2011 Davis Clark <davis.clark@net-machine.com>
@@ -103,4 +103,3 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	
