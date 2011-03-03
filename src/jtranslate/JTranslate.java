@@ -6,6 +6,7 @@ import jtranslate.grammar.GrammarSet;
 import jtranslate.parser.GrammarParser;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -132,8 +133,17 @@ public class JTranslate
 
     public static void loadTranslatorClasses(JTranslateEnvironment env, CommandLine cl) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException
     {
-        File t = new File(cl.getOptionValue("t"));
-        URLClassLoader loader = new URLClassLoader(new URL[]{ t.toURI().toURL() });
+        String tArg = cl.getOptionValue("t");
+        tArg = tArg.endsWith(";") ? tArg.substring(0, tArg.length()-1) : tArg;
+        String[] tArgs = tArg.split(";");
+        URL[] urls = new URL[tArgs.length];
+        String sep = System.getProperty("file.separator");
+        for(int i = 0; i<urls.length; i++) {
+            String path = FilenameUtils.normalize(tArgs[i]);
+            urls[i] = new URL("file:"+path);
+        }
+
+        URLClassLoader loader = new URLClassLoader(urls);
 
         env.registerTranslators(loader);
     }
