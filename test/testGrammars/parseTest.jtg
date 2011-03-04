@@ -6,6 +6,14 @@
     "#NUMBER" -> "242342";
 }
 
+/*
+@shouldThrowError {
+    No implementation for a special block with this name exists.
+    When this block is uncommented, a parser error should be thrown
+
+}
+*/
+
 operator  {
 	==|<=|>=|!=|<|>
 }

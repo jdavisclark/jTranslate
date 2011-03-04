@@ -38,10 +38,9 @@ public class GrammarRuleParser
         rule = rp.parse();
         tkn = tokenizer.currentToken();
 
-        GrammarRule g = new GrammarRule(ruleName, rule, trans ? GrammarType.Translation : GrammarType.Natural);
+        GrammarRule g = new GrammarRule(ruleName, rule, trans ? GrammarType.Translation : GrammarType.Reference);
         if(g.getType() == GrammarType.Translation) {
-            g.setTranslatorName(transName
-            );
+            g.setTranslatorName(transName);
         }
 
         return g;

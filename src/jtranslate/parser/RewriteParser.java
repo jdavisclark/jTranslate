@@ -8,13 +8,13 @@ import java.util.LinkedList;
 
 public class RewriteParser
 {
-    public LinkedList<RewriteRule> parse(StandardTokenizer tokenizer) throws TokenizerException {
+    public LinkedList<RewriteRule> parse(StandardTokenizer tokenizer) throws TokenizerException
+    {
         TokenizerProperties props = tokenizer.getTokenizerProperties();
         props.addString("\"", "\"", "\\");
         tokenizer.setTokenizerProperties(props);
 
-
-        Token t = tokenizer.nextToken(); // consume 'rewrite'
+        Token t = tokenizer.currentToken();
         if(!t.getImage().equals("rewrite")) {
             throw new Error("Expected 'rewrite', found '"+t.getImage()+"'");
         }
@@ -64,7 +64,7 @@ public class RewriteParser
 
             tokenizer.nextToken(); // consume ';'
 
-            return new RewriteRule(search.replace("\"", ""), rewrite.replace("\"", ""));
+            return new RewriteRule(search.substring(1, search.length()-1), rewrite.substring(1, rewrite.length()-1));
         }
     }
 }

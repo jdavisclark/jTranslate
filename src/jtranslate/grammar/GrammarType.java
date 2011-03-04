@@ -2,7 +2,6 @@ package jtranslate.grammar;
 
 public enum GrammarType
 {
-	Natural,
-	Extension,
+    Reference,
 	Translation
 }

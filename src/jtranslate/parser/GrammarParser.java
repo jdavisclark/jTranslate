@@ -15,10 +15,8 @@ public class GrammarParser
         tps.addBlockComment("/*", "*/");
         tps.addLineComment("//");
         tps.addSpecialSequence("->");
-        tps.setParseFlags(Flags.F_COUNT_LINES);
-
         tps.addSpecialSequence("@");
-
+        tps.setParseFlags(Flags.F_COUNT_LINES);
 
         ReaderSource src = new ReaderSource(new FileReader(f));
         StandardTokenizer tokenizer = new StandardTokenizer(tps);
@@ -30,9 +28,16 @@ public class GrammarParser
         while(tokenizer.hasMoreToken() && (t = tokenizer.nextToken()).getType() != Token.EOF) {
             if(t.getType() == Token.SPECIAL_SEQUENCE && t.getImage().equals("@"))
             {
-                RewriteParser parser = new RewriteParser();
-                LinkedList<RewriteRule> rules = parser.parse(tokenizer);
-                gs.addRewriteRules(rules);
+                t = tokenizer.nextToken(); // consume @
+
+                if(tokenizer.currentImage().equals("rewrite")) {
+                    RewriteParser parser = new RewriteParser();
+                    LinkedList<RewriteRule> rules = parser.parse(tokenizer);
+                    gs.addRewriteRules(rules);
+                }
+                else {
+                    throw new Error("No support for special block '"+tokenizer.currentImage()+"'");
+                }
             }
             else {
                 GrammarRuleParser parser = new GrammarRuleParser();
