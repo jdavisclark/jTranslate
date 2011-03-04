@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class GrammarRule
 {
-	public static final Pattern RefGrammar = Pattern.compile("\\<[\\w_]+\\>");
+	public static final Pattern RefGrammar = Pattern.compile("\\<[\\w\\d_]+\\>");
 
 	String key;
 	String rule;
@@ -28,9 +28,9 @@ public class GrammarRule
 
 	public void compileRule(Hashtable<String, GrammarRule> grams)
 	{
-		while(true)
-		{
-			boolean changed = false;
+        boolean changed;
+		do {
+			changed = false;
 			Matcher m = GrammarRule.RefGrammar.matcher(this.rule);
 			while(m.find())
 			{
@@ -42,9 +42,7 @@ public class GrammarRule
 				this.rule = this.rule.replace(ref, repRule);
 				changed = true;
 			}
-			if(!changed)
-                break;
-		}
+		} while(changed);
 	}
 
     public Pattern getPattern() {
