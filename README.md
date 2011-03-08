@@ -1,9 +1,9 @@
 jTranslate
 ========
 
-jTranslate is a cross platform command line tool written in java for performing transformations on textual input. Rules are defined in a grammar file via regular expressions, special translation rules in the grammar file map to a specific java translator class that must implement the Translator interface. For each input file, for every instance of a translation rule, occurrences in the text are replaced with the output of the translate(MatchResult mat) method of the mapped Translator class.
+jTranslate is a cross platform command line tool written in java for performing transformations/preprocessing of textual input. 
 
-More documentation is comming, but check out the contents of the test directory to see some sample grammar files and translator classes. A runnable jarfile is included, which would be run with the following command on the files in the test directory: "java -jar jtranslate.jar --source=test/src --output=test/translated --grammar=test/grammars --translators=test/translators"
+Check out the contents of the test directory to see some sample grammar files and translator classes. A runnable jarfile is included, which would be run with the following command on the files in the test directory: "java -jar jtranslate.jar --source=test/src/ --output=test/translated/ --grammar=test/grammars/    --translators=test/translators/;test/translators2/"
 
 ## Warning
 jTranslate is a very young project. For the the time being, the API and grammar file format will be changing without much concern for backwards compatibility.
