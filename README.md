@@ -92,7 +92,7 @@ As mentioned before, each translator rule must be mapped to a translator class w
 jTranslate will recurse through each file in source directory/subdirectories, translate the file, and save the new file to the output directory. Directory structure is preserved from the source directory to the output directory. These arguments are not required to be directories, but it is strongly suggested.
 
 ## Translators Argument
-The -t/--translators argument is extremely flexible, and is used behind the scenes to create a URLClassLoader. However, "file:" is appended to the beginning of each path so remote URLs are current not supported (this will change) Currently If you need multiple paths, the -t argument can be a semicolon delimited list of paths.
+The -t/--translators argument is extremely flexible, and is used behind the scenes to create a URLClassLoader. However, "file:" is appended to the beginning of each path so remote URLs are not supported (this will change). If you need multiple paths, the -t argument can be a semicolon delimited list of paths.
 
 ## License
 Copyright (c) 2011 Davis Clark <davis.clark@net-machine.com>
