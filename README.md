@@ -1,7 +1,7 @@
 jTranslate
 ========
 
-jTranslate is a cross platform command line tool written in java for performing transforming/preprocessing textual input. 
+jTranslate is a cross platform command line tool written in java for performing transformations/preprocessing textual input. 
 
 Check out the contents of the test directory to see some sample grammar files and translator classes. A runnable jarfile is included, which would be run with the following command on the files in the test directory: "java -jar jtranslate.jar --source=test/src/ --output=test/translated/ --grammar=test/grammars/    --translators=test/translators/;test/translators2/"
 
