@@ -8,13 +8,14 @@ import jtranslate.parser.GrammarParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 public class jTopasTester
 {
-    public static void main(String[] args) throws FileNotFoundException, TokenizerException
+    public static void main(String[] args) throws IOException, TokenizerException
     {
-        GrammarParser parser = new GrammarParser();
-        GrammarSet set = parser.parse(new File("test/grammars/exJava.jtg"));
+        GrammarParser parser = new GrammarParser(new ReaderSource(new File("test/grammars/exJava.jtg")));
+        GrammarSet set = parser.parse();
         GrammarManager grammarManager = new GrammarManager();
         for(GrammarRule r : set.getGrammarRules()) {
             grammarManager.addRule(r.getKey(), r, false);

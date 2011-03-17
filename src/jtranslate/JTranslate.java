@@ -1,5 +1,6 @@
 package jtranslate;
 
+import de.susebox.jtopas.ReaderSource;
 import de.susebox.jtopas.TokenizerException;
 import jtranslate.grammar.GrammarRule;
 import jtranslate.grammar.GrammarSet;
@@ -40,10 +41,6 @@ public class JTranslate
         translator.setValueSeparator('=');
         translator.setRequired(true);
         opts.addOption(translator);
-
-//        Option config = new Option("c", "config", true, "Configuration file.");
-//        config.setValueSeparator('=');
-//        opts.addOption(config);
 
         opts.addOption("h", "help", false, "Display usage information");
 
@@ -133,6 +130,9 @@ public class JTranslate
         System.out.println("\t\t->\t"+outputFile.getPath());
     }
 
+    /*
+        @TODO: find a better way to deal with the trailing slash on diretory paths
+     */
     public static void loadTranslatorClasses(JTranslateEnvironment env, CommandLine cl) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException
     {
         String tArg = cl.getOptionValue("t");
@@ -142,6 +142,10 @@ public class JTranslate
         String sep = System.getProperty("file.separator");
         for(int i = 0; i<urls.length; i++) {
             String path = FilenameUtils.normalize(tArgs[i]);
+            File f = new File(path);
+            if(f.isDirectory() && !path.endsWith(sep)) {
+                path += sep;
+            }
             urls[i] = new URL("file:"+path);
         }
 
@@ -169,12 +173,12 @@ public class JTranslate
         return grammars;
     }
 
-    public static GrammarSet parseGrammarRules(Iterable<File> gFiles) throws FileNotFoundException, TokenizerException
+    public static GrammarSet parseGrammarRules(Iterable<File> gFiles) throws IOException, TokenizerException
     {
-        GrammarParser parser = new GrammarParser();
         GrammarSet set = new GrammarSet();
         for(File f : gFiles) {
-            set.addSet(parser.parse(f));
+            GrammarParser parser = new GrammarParser(new ReaderSource(f));
+            set.addSet(parser.parse());
         }
 
         return set;

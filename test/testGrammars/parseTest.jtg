@@ -14,6 +14,12 @@
 }
 */
 
+/*
+BLOCK {
+    // should throw error, block is a reserved rule
+}
+*/
+
 operator  {
 	==|<=|>=|!=|<|>
 }

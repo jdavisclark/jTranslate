@@ -1,42 +1,46 @@
 package jtranslate.parser;
 
-import de.susebox.jtopas.StandardTokenizer;
 import de.susebox.jtopas.Token;
 import de.susebox.jtopas.TokenizerException;
 import jtranslate.grammar.GrammarRule;
 import jtranslate.grammar.GrammarType;
 import jtranslate.grammar.ReservedRules;
+import jtranslate.parser.error.GrammarParserError;
 
-public class GrammarRuleParser
+public class GrammarRuleParser extends Parser
 {
-    public GrammarRule parse(StandardTokenizer tokenizer) throws TokenizerException
+    public GrammarRuleParser(Parser parent) {
+        super(parent);
+    }
+    
+    public GrammarRule parse() throws TokenizerException
     {
-        Token tkn = tokenizer.currentToken();
+        Token tkn = currentToken();
         String ruleName = tkn.getImage();
 
         if(ReservedRules.RULES.contains(ruleName)) {
-            throw new Error("\""+ruleName+"\" is a reserved rule! Choose a different name.");
+            throw new GrammarParserError("\""+ruleName+"\" is a reserved rule! Choose a different name.", this);
         }
-        tkn = tokenizer.nextToken(); // consume rule name
+        tkn = nextToken(); // consume rule name
 
         boolean trans = false;
         String transName = null, rule;
 
-        if(tokenizer.currentImage().equals("->")) {
+        if(currentImage().equals("->")) {
             trans = true;
-            tkn = tokenizer.nextToken(); // consume ->
+            tkn = nextToken(); // consume ->
 
-            transName = tokenizer.currentImage();
-            tkn = tokenizer.nextToken(); // consume translator name
+            transName = currentImage();
+            tkn = nextToken(); // consume translator name
         }
 
-        if(!tokenizer.currentImage().equals("{")) {
-            throw new Error("Unexpexted token at line: "+tokenizer.getCurrentLine() +", column: "+tokenizer.getCurrentColumn());
+        if(!currentImage().equals("{")) {
+            throw new GrammarParserError("Unexpected token '"+currentImage()+"'", this);
         }
 
-        RuleParser rp = new RuleParser(tokenizer);
+        RuleParser rp = new RuleParser(this);
         rule = rp.parse();
-        tkn = tokenizer.currentToken();
+        tkn = currentToken();
 
         GrammarRule g = new GrammarRule(ruleName, rule, trans ? GrammarType.Translation : GrammarType.Reference);
         if(g.getType() == GrammarType.Translation) {

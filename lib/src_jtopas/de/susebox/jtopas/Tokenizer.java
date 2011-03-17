@@ -270,7 +270,7 @@ public interface Tokenizer {
    * object. Flags related to the parsing process can also be set separately
    * for each tokenizer during runtime. These are the dynamic flags:
    *<ul><li>
-   *  {@link TokenizerProperties#F_RETURN_WHITESPACES} and its sub-flags
+   *  {@link TokenizerProperties.#F_RETURN_WHITESPACES} and its sub-flags
    *</li><li>
    *  {@link TokenizerProperties#F_TOKEN_POS_ONLY}
    *</li></ul>

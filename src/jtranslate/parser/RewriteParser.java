@@ -3,66 +3,76 @@ package jtranslate.parser;
 import de.susebox.jtopas.*;
 import jtranslate.grammar.GrammarSet;
 import jtranslate.grammar.RewriteRule;
+import jtranslate.parser.error.GrammarParserError;
 
 import java.util.LinkedList;
 
-public class RewriteParser
+public class RewriteParser extends Parser
 {
-    public LinkedList<RewriteRule> parse(StandardTokenizer tokenizer) throws TokenizerException
+    public RewriteParser(Parser parent) {
+        super(parent);
+    }
+
+
+    public LinkedList<RewriteRule> parse() throws TokenizerException
     {
-        TokenizerProperties props = tokenizer.getTokenizerProperties();
+        TokenizerProperties props = getProperties();
         props.addString("\"", "\"", "\\");
-        tokenizer.setTokenizerProperties(props);
+        setProperties(props);
 
-        Token t = tokenizer.currentToken();
+        Token t = currentToken();
         if(!t.getImage().equals("rewrite")) {
-            throw new Error("Expected 'rewrite', found '"+t.getImage()+"'");
+            throw new GrammarParserError("Expected 'rewrite', found '"+t.getImage()+"'", this);
         }
 
-        t = tokenizer.nextToken();
+        t = nextToken();
         if(!t.getImage().equals("{")) {
-            throw new Error("Expecting '{', found '"+t.getImage()+"'");
+            throw new GrammarParserError("Expecting '{', found '"+t.getImage()+"'", this);
         }
 
-        t = tokenizer.nextToken();
+        t = nextToken();
         if(t.getType() != Token.STRING) {
-            throw new Error("Expecting a STRING");
+            throw new GrammarParserError("Expecting a string, found '"+currentImage()+"'", this);
         }
 
-        RewriteRuleParser rrp = new RewriteRuleParser();
+        RewriteRuleParser rrp = new RewriteRuleParser(this);
         LinkedList<RewriteRule> rules = new LinkedList<RewriteRule>();
-        while(!tokenizer.currentImage().equals("}") && tokenizer.currentToken().getType() != Token.EOF)
+        while(!currentImage().equals("}") && currentToken().getType() != Token.EOF)
         {
-            rules.add(rrp.parse(tokenizer));
+            rules.add(rrp.parse());
         }
 
         props.removeString("\"");
-        tokenizer.setTokenizerProperties(props);
+        setProperties(props);
 
         return rules;
     }
 
 
-    private class RewriteRuleParser
+    private class RewriteRuleParser extends Parser
     {
-        public RewriteRule parse(StandardTokenizer tokenizer) throws TokenizerException
+        public RewriteRuleParser(Parser parent) {
+            super(parent);
+        }
+
+        public RewriteRule parse() throws TokenizerException
         {
-            String search = tokenizer.currentImage();
-            tokenizer.nextToken(); // consume search string
+            String search = currentImage();
+            nextToken(); // consume search string
 
-            if(!tokenizer.currentImage().equals("->")) {
-                throw new Error("Expecting '->', found '"+tokenizer.currentImage()+"'");
+            if(!currentImage().equals("->")) {
+                throw new GrammarParserError("Expecting '->', found '"+currentImage()+"'", this);
             }
 
-            tokenizer.nextToken();
-            String rewrite = tokenizer.currentImage();
+            nextToken();
+            String rewrite = currentImage();
 
-            tokenizer.nextToken();
-            if(!tokenizer.currentImage().equals(";")) {
-                throw new Error("Expecting ';', found '"+tokenizer.currentImage()+"'");
+            nextToken();
+            if(!currentImage().equals(";")) {
+                throw new GrammarParserError("Expecting ';', found '"+currentImage()+"'", this);
             }
 
-            tokenizer.nextToken(); // consume ';'
+            nextToken(); // consume ';'
 
             return new RewriteRule(search.substring(1, search.length()-1), rewrite.substring(1, rewrite.length()-1));
         }
