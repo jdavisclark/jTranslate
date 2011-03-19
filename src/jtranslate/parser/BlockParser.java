@@ -4,9 +4,9 @@ import de.susebox.jtopas.Token;
 import de.susebox.jtopas.Tokenizer;
 import de.susebox.jtopas.TokenizerException;
 
-public class RuleParser extends Parser
+public class BlockParser extends Parser
 {
-    public RuleParser(Parser parent) {
+    public BlockParser(Parser parent) {
         super(parent);
     }
 

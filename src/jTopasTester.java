@@ -1,12 +1,10 @@
 import de.susebox.jtopas.*;
-import jtranslate.JTranslateEnvironment;
 import jtranslate.grammar.GrammarManager;
 import jtranslate.grammar.GrammarRule;
 import jtranslate.grammar.GrammarSet;
 import jtranslate.parser.GrammarParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 

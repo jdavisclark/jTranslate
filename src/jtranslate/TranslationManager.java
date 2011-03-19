@@ -1,12 +1,15 @@
 package jtranslate;
 
+import bsh.EvalError;
+import bsh.Interpreter;
 import jtranslate.grammar.GrammarRule;
-import jtranslate.grammar.GrammarSet;
 import jtranslate.grammar.GrammarType;
 import jtranslate.grammar.RewriteRule;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Hashtable;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -37,8 +40,7 @@ public class TranslationManager
 			map.remove(key);
     }
 
-	public String translate(File file, Iterable<RewriteRule> rewriteRules, Iterable<GrammarRule> grammarRules) throws IOException
-	{
+	public String translate(File file, Iterable<RewriteRule> rewriteRules, Iterable<GrammarRule> grammarRules) throws IOException, EvalError {
 		Scanner scan = new Scanner(file);
 		scan.useDelimiter("\\z");
 			String source = scan.next();
@@ -50,7 +52,7 @@ public class TranslationManager
 
 		for(GrammarRule gram : grammarRules)
 		{
-			if(gram.getType() != GrammarType.Translation){
+			if(gram.getType() == GrammarType.Reference){
 				continue;
 			}
 
@@ -58,8 +60,19 @@ public class TranslationManager
 			while(mat.find())
 			{
 				String group = mat.group();
-				Translator translator = this.resolve(gram.getKey());
-				source = source.replace(group, translator.translate(mat.toMatchResult()));
+				if(gram.getType() == GrammarType.Translation) {
+                    Translator translator = this.resolve(gram.getKey());
+				    source = source.replace(group, translator.translate(mat.toMatchResult()));
+                }
+                else if(gram.getType() == GrammarType.TranslationScript) {
+                    Interpreter i = new Interpreter();
+                    i.set("match", mat.toMatchResult());
+                    Object result = i.eval(gram.getScript());
+                    if(!(result instanceof String))
+                        throw new Error("Script for '"+gram.getKey()+"' must return a String!");
+
+                    source = source.replace(group, (String)result);
+                }
 			}
 		}
 		return source;

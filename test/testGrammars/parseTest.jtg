@@ -14,13 +14,15 @@
 }
 */
 
+
 /*
 BLOCK {
     // should throw error, block is a reserved rule
 }
 */
 
-operator  {
+
+operator {
 	==|<=|>=|!=|<|>
 }
 
@@ -50,3 +52,15 @@ lambda_filter -> LambdaTranslator {
 	(<name>)(<generic>)\s*(<name>)\s*=\s*
     from\s+(<name>)\s+(<result_identifier>)\s+(\w)+\s*=>\s*(.*);
 }
+
+script_test {
+    (<name>)(<generic>)\s*(<name>)\s*=\s*
+    from\s+(<name>)\s+(<result_identifier>)\s+(\w)+\s*=>\s*(.*);
+} -> {{
+    return "*****"+match.get(0)+"********";
+}}
+
+random_ref_rule -> RandomTranslator {
+    {{making sure parsing still goes well after encountering a script rule...}}
+}
+

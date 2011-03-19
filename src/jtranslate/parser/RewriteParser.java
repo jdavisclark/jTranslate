@@ -45,6 +45,7 @@ public class RewriteParser extends Parser
         props.removeString("\"");
         setProperties(props);
 
+        nextToken(); // consume closing }
         return rules;
     }
 

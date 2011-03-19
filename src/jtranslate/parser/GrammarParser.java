@@ -23,18 +23,18 @@ public class GrammarParser extends Parser
         PROPERTIES.setParseFlags(Flags.F_COUNT_LINES);
     }
 
-    public GrammarParser(TokenizerSource src)
-    {
+    public GrammarParser(TokenizerSource src) {
         super(PROPERTIES, src);
     }
 
-    public GrammarSet parse() throws FileNotFoundException, TokenizerException {
+    public GrammarSet parse() throws FileNotFoundException, TokenizerException
+    {
         GrammarSet gs = new GrammarSet();
-        Token t;
+        nextToken();
 
-        while(hasMoreTokens() && (t = nextToken()).getType() != Token.EOF) {
-            if(t.getCompanion() == TokenType.SPECIAL_BLOCK) {
-                t = nextToken(); // consume @
+        while(hasMoreTokens() && currentToken().getType() != Token.EOF) {
+            if(currentCompanion() == TokenType.SPECIAL_BLOCK) {
+                nextToken(); // consume @
 
                 if(currentImage().equals("rewrite")) {
                     RewriteParser parser = new RewriteParser(this);

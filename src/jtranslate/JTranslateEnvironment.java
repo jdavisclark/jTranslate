@@ -1,5 +1,6 @@
 package jtranslate;
 
+import bsh.EvalError;
 import de.susebox.jtopas.TokenizerException;
 import jtranslate.grammar.GrammarManager;
 import jtranslate.grammar.GrammarRule;
@@ -50,8 +51,7 @@ public class JTranslateEnvironment
 		transManager.deRegister(key);
 	}
 
-	public String translate(File file) throws IOException
-	{
+	public String translate(File file) throws IOException, EvalError {
 		return transManager.translate(file, set.getRewriteRules(), grammarManager.getRules());
 	}
 

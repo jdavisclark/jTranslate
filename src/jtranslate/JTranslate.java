@@ -1,5 +1,6 @@
 package jtranslate;
 
+import bsh.EvalError;
 import de.susebox.jtopas.ReaderSource;
 import de.susebox.jtopas.TokenizerException;
 import jtranslate.grammar.GrammarRule;
@@ -51,8 +52,7 @@ public class JTranslate
         return new GnuParser().parse(opts, args);
     }
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TokenizerException
-    {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TokenizerException, EvalError {
         Options opts = buildOptions();
         CommandLine cl = null;
         HelpFormatter help = new HelpFormatter();
@@ -112,8 +112,7 @@ public class JTranslate
         System.out.println("\n\nTranslation Duration: "+seconds+"."+remain+" seconds");
 	}
 
-    public static void translate(File source, File outputDir, String sep, JTranslateEnvironment env, CommandLine cl) throws IOException
-    {
+    public static void translate(File source, File outputDir, String sep, JTranslateEnvironment env, CommandLine cl) throws IOException, EvalError {
         System.out.println("Translating file: "+source.getCanonicalPath());
         File srcRoot = new File(cl.getOptionValue("s"));
         String subPath = srcRoot.toURI().relativize(source.toURI()).getPath();

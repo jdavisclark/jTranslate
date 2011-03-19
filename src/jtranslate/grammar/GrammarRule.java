@@ -10,6 +10,7 @@ public class GrammarRule
 
 	String key;
 	String rule;
+    String script;
 	GrammarType grammarType;
     String translatorName;
 
@@ -67,6 +68,14 @@ public class GrammarRule
 
     public void setTranslatorName(String name) {
         translatorName = name;
+    }
+
+    public String getScript() {
+        return this.script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
     }
 
 

@@ -1,7 +1,9 @@
 package jtranslate.parser;
 
+import de.susebox.jtopas.Flags;
 import de.susebox.jtopas.Token;
 import de.susebox.jtopas.TokenizerException;
+import de.susebox.jtopas.TokenizerProperties;
 import jtranslate.grammar.GrammarRule;
 import jtranslate.grammar.GrammarType;
 import jtranslate.grammar.ReservedRules;
@@ -29,7 +31,6 @@ public class GrammarRuleParser extends Parser
         if(currentImage().equals("->")) {
             trans = true;
             tkn = nextToken(); // consume ->
-
             transName = currentImage();
             tkn = nextToken(); // consume translator name
         }
@@ -38,14 +39,47 @@ public class GrammarRuleParser extends Parser
             throw new GrammarParserError("Unexpected token '"+currentImage()+"'", this);
         }
 
-        RuleParser rp = new RuleParser(this);
+        BlockParser rp = new BlockParser(this);
         rule = rp.parse();
         tkn = currentToken();
 
-        GrammarRule g = new GrammarRule(ruleName, rule, trans ? GrammarType.Translation : GrammarType.Reference);
+        nextToken(); // consume closing }
+
+        String script = null;
+        if(currentCompanion() == TokenType.MAP) {
+            TokenizerProperties props = getProperties();
+            props.addString("{{", "}}", "\\");
+            setProperties(props);
+            nextToken(); // consume ->
+            script = currentImage().trim();
+            script = script.substring(2, script.length()-2).trim();
+
+            TokenizerProperties props2 = getProperties();
+            props2.removeString("{{");
+            setProperties(props2);
+
+            nextToken(); // consume script
+        }
+
+        GrammarType type;
+        if(trans && script == null) {
+            type = GrammarType.Translation;
+        }
+        else if(script != null) {
+            type = GrammarType.TranslationScript;
+        }
+        else {
+            type = GrammarType.Reference;
+        }
+
+        GrammarRule g = new GrammarRule(ruleName, rule, type);
         if(g.getType() == GrammarType.Translation) {
             g.setTranslatorName(transName);
         }
+        if(g.getType() == GrammarType.TranslationScript) {
+            g.setScript(script);
+        }
+
 
         return g;
     }

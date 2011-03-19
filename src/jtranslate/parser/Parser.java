@@ -59,4 +59,12 @@ public abstract class Parser
     public TokenizerSource getSource() {
         return tokenizer.getSource();
     }
+
+    public Object currentCompanion() throws TokenizerException {
+        return tokenizer.currentToken().getCompanion();
+    }
+
+    public int currentType() throws TokenizerException {
+        return tokenizer.currentToken().getType();
+    }
 }
