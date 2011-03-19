@@ -56,9 +56,12 @@ lambda_filter -> LambdaTranslator {
 script_test {
     (<name>)(<generic>)\s*(<name>)\s*=\s*
     from\s+(<name>)\s+(<result_identifier>)\s+(\w)+\s*=>\s*(.*);
-} -> {{
+} -> {
+    int a = 34234;
+    a++;
+    String something = "asdasd asdasd asdasd";
     return "*****"+match.get(0)+"********";
-}}
+}
 
 random_ref_rule -> RandomTranslator {
     {{making sure parsing still goes well after encountering a script rule...}}

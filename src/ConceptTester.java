@@ -1,15 +1,9 @@
-import java.io.*;
-import java.net.URL;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import bsh.EvalError;
 import bsh.Interpreter;
-import de.susebox.jtopas.TokenizerException;
-import jtranslate.parser.GrammarParser;
-import org.apache.commons.io.FilenameUtils;
-import sun.plugin.com.BeanClass;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.StreamTokenizer;
 
 public class ConceptTester
 {

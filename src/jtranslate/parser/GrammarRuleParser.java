@@ -43,22 +43,32 @@ public class GrammarRuleParser extends Parser
         rule = rp.parse();
         tkn = currentToken();
 
-        nextToken(); // consume closing }
-
         String script = null;
         if(currentCompanion() == TokenType.MAP) {
-            TokenizerProperties props = getProperties();
-            props.addString("{{", "}}", "\\");
-            setProperties(props);
+//            TokenizerProperties props = getProperties();
+//            props.addString("{{", "}}", "\\");
+//            setProperties(props);
+//            nextToken(); // consume ->
+//            script = currentImage().trim();
+//            script = script.substring(2, script.length()-2).trim();
+//
+//            TokenizerProperties props2 = getProperties();
+//            props2.removeString("{{");
+//            setProperties(props2);
+//
+//            nextToken(); // consume script
+
             nextToken(); // consume ->
-            script = currentImage().trim();
-            script = script.substring(2, script.length()-2).trim();
 
-            TokenizerProperties props2 = getProperties();
-            props2.removeString("{{");
-            setProperties(props2);
+            TokenizerProperties props = getProperties();
+            props.removeWhitespaces(" ");
+            setProperties(props);
 
-            nextToken(); // consume script
+            BlockParser blockParser = new BlockParser(this);
+            script = blockParser.parse().trim();
+
+            props.addWhitespaces(" ");
+            setProperties(props);
         }
 
         GrammarType type;

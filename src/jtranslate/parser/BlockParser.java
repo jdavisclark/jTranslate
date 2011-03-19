@@ -33,6 +33,8 @@ public class BlockParser extends Parser
             }
         }
 
+        nextToken(); // consume closing }
+
         return sb.toString();
     }
 

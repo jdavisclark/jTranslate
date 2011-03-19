@@ -90,3 +90,17 @@ auto_property -> AutoPropertyTranslator {
         (<default_set>|<custom_set>)\s*
     \}
 }
+
+script_test {
+    SCRIPT_TEST
+} -> {
+    import java.util.regex.Pattern;
+
+    Pattern pat = Pattern.compile("\\w\\d");
+
+    String out = "";
+    File f = new File("test/grammars/exJava.jtg");
+    out += f+"->";
+    out += new Interpreter().eval("return 23423423");
+    return out;
+}
