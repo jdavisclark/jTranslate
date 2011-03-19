@@ -1,0 +1,26 @@
+/*
+    Language-level String prototyping with C# style type formatting
+*/
+
+prototype_string{
+	~<string>
+} -> {
+    import java.util.regex.MatchResult;
+    import java.util.regex.Matcher;
+    import java.util.regex.Pattern;
+
+    Pattern protoElementPattern = Pattern.compile("\\[[^\\[\\]]+\\]");
+
+    String contents = match.group(0).substring(1);
+    Matcher elmMat = protoElementPattern.matcher(contents);
+    while(elmMat.find())
+    {
+        String group = elmMat.group();
+        contents = contents.replace(group, "\"+"+group.substring(1, group.length()-1)+"+\"");
+    }
+
+    return "("+contents+")";
+}
+
+
+

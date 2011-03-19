@@ -1,0 +1,13 @@
+/*
+    Shorthand to make lengthy classname and generic assignment easier to deal with.
+*/
+
+implicit_assignment {
+	var\s*(<name>)\s*=\s*new\s*(<name><generic>|<name>)(\([^;]*\));
+} -> {
+    return match.group(2)+" "+match.group(1)+" = new "+match.group(2)+match.group(3)+";";
+}
+
+
+
+

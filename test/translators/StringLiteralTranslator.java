@@ -7,10 +7,10 @@ import java.util.regex.*;
 public class StringLiteralTranslator implements Translator
 {
 	@Override
-	public String translate(MatchResult mat)
+	public String translate(MatchResult match)
 	{
         Pattern p = Pattern.compile("\\\\t|\\\\b|\\\\n|\\\\r|\\\\f|\\\\'|\\\\\"");
-        String input = mat.group().substring(1);
+        String input = match.group().substring(1);
         Matcher mat1 = p.matcher(input);
         while(mat1.find()) {
             input = input.replace(mat1.group(), "_@"+mat1.group().substring(1)+"@_");

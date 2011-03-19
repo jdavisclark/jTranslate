@@ -1,0 +1,30 @@
+/*
+  Weird kind of string literals. Replaces all single '/' characters with '//', making
+  file paths much less of a pain
+*/
+
+string_literal {
+    #<string>
+} -> {
+    import java.util.regex.*;
+
+    Pattern p = Pattern.compile("\\\\t|\\\\b|\\\\n|\\\\r|\\\\f|\\\\'|\\\\\"");
+    String input = match.group().substring(1);
+    Matcher mat1 = p.matcher(input);
+
+    // crazy obfuscation of valid delimiting sequences to make sure they get preserved.
+    while(mat1.find()) {
+        input = input.replace(mat1.group(), "_@"+mat1.group().substring(1)+"@_");
+    }
+
+    input = input.replace("\\", "\\\\");
+
+    // remove crazy obfuscation...
+    Matcher mat2 = Pattern.compile("_@(.)@_").matcher(input);
+    while(mat2.find()) {
+        String c = mat2.group(1);
+        input = input.replace("_@"+c+"@_", "\\"+c);
+    }
+
+    return input;
+}

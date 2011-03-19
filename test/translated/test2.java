@@ -1,5 +1,3 @@
-
-
 import java.util.LinkedList;
 
 public class test
@@ -15,9 +13,5 @@ public class test
 		
 		for(String s : newList)
 			System.out.println(s);
-		
-		
 	}
 }
-	
-	

@@ -1,0 +1,57 @@
+/*
+    Rewrite rules and global reference rules
+*/
+
+@rewrite {
+    "#NAME" -> "John Smith";
+    "#NUMBER" -> "6543169";
+}
+
+@rewrite {
+   "MULTIPLE_REWRITE_BLOCK_TEST" -> "Multiple rewrite blocks working...";
+
+   // Think about multiple rewrite rules with the same search string...
+   "#NAME" -> "Some other name....";
+}
+
+access_id {
+	public|private|protected
+}
+
+name {
+	[\w_]+
+}
+
+generic {
+	<<name>>
+}
+
+string {
+    "([A-Za-z0-9\t\w\W]|\\")*"
+}
+
+
+result_identifier {
+	select|where
+}
+
+
+default_get {
+	get;
+}
+
+custom_get {
+	get\s*\{\s*.*return\s+.*\;\s*\}
+}
+
+default_set {
+	set;
+}
+
+/*
+    Think about removing the back-reference and leave it up to the programmer to use the correct variable.
+    Translation will fail either way.
+*/
+custom_set {
+	set\s*\{\s*.*\s*\3\s*=\s*.*\;\s*\}
+}
