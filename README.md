@@ -67,12 +67,12 @@ jTranslate supports special rewrite blocks for instances where you are not perfo
 		<integer> | <decimal>
 	}
 
-        convert_long_to_int {
-            <integer>L
-        } -> {
-            String original = match.group(0);
-            return original.substring(0, original.length() -1);
-        }
+    convert_long_to_int {
+        <integer>L
+    } -> {
+        String original = match.group(0);
+        return original.substring(0, original.length() -1);
+    }
 
 
 #### Notes on Grammar Files
