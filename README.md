@@ -32,10 +32,10 @@ If you do not want to rely on precompiled external classes to perform your trans
 
         convert_long_to_int {
             <integer>L
-        } -> {{
+        } -> {
             String original = match.group(0);
             return original.substring(0, original.length() -1);
-        }}
+        }
 
 ### Rewrite Blocks
 jTranslate supports special rewrite blocks for instances where you are not performing advanced text manipulation, and just want to perform a simple search and replace on you input files.
