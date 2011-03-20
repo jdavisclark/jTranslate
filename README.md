@@ -9,7 +9,7 @@ Check out the contents of the test directory to see some sample grammar files an
 jTranslate is a very young project. For the the time being, the API and grammar file format will be changing without much concern for backwards compatibility.
 
 ## Grammar Files
-Grammar files are where you are going to define regular expression based rules. Grammar files must use the '.jtg' extension. There are two types of rules, reference rules and translation rules. jTranslate will only search for instances of translation rules, reference rules are there to make other reference and translation rules easier to read.
+Grammar files are where you are going to define regular expression based rules. Grammar files must use the '.jtg' extension. There are three types of rules, reference rules ,translation rules, and scripted translation. jTranslate will only search for instances of translation and scripted translation rules, reference rules are there to make other reference and translation rules easier to read.
 
 ### Reference Rules
 	integer {
@@ -26,6 +26,16 @@ Translation rules are what jTranslate actually searches for in your input files.
 	number -> NumberTranslator {
 		<integer> | <decimal>
 	}
+
+### Scripted Translation Rules
+If you do not want to rely on precompiled external classes to perform your translations, jTranslate supports beanshell scripting within grammar files. Your scripts are run in a context with the predefined variable "match" being the MatchResult.
+
+        convert_long_to_int {
+            <integer>L
+        } -> {{
+            String original = match.group(0);
+            return original.substring(0, original.length() -1);
+        }}
 
 ### Rewrite Blocks
 jTranslate supports special rewrite blocks for instances where you are not performing advanced text manipulation, and just want to perform a simple search and replace on you input files.
