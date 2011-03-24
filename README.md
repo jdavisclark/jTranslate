@@ -25,7 +25,7 @@ Grammar files are where you are going to define regular expression based rules. 
 	}
 
 ### Translation Rules
-Translation rules are what jTranslate actually searches for in your input files. They are defined almost exactly like reference rules, but you must map each translation rule to the class name that will perform the translation. This class must be loadable via the -t/--translators argument.
+Translation rules are what jTranslate actually searches for in your input files. They are defined almost exactly like reference rules, but you must map each translation rule to the java class name that will perform the translation. This class must be loadable via the -t/--translators argument.
 
 	number -> NumberTranslator {
 		<integer> | <decimal>
