@@ -13,7 +13,7 @@ Grammar files are where you are going to define regular expression based rules. 
 
 ### Reference Rules
 	integer {
-		[0-9]+
+		-?[0-9]+
 	}
 
 	decimal {
