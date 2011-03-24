@@ -12,12 +12,16 @@ jTranslate is a very young project. For the the time being, the API and grammar 
 Grammar files are where you are going to define regular expression based rules. Grammar files must use the '.jtg' extension. There are three types of rules, reference rules ,translation rules, and scripted translation. jTranslate will only search for instances of translation and scripted translation rules, reference rules are there to make other reference and translation rules easier to read.
 
 ### Reference Rules
+        number {
+            [0-9]+ 
+        }
+
 	integer {
-		-?[0-9]+
+		-?<number>
 	}
 
 	decimal {
-		<integer>\.<integer>
+		<integer>\.<number>
 	}
 
 ### Translation Rules
